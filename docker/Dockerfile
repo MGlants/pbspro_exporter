@@ -40,8 +40,8 @@ RUN set -xeuo && \
     go get github.com/juju/errors && \
     go get github.com/matttproud/golang_protobuf_extensions/pbutil && \
     go get github.com/siddontang/go/log && \
-    go get github.com/taylor840326/go_pbspro/qstat && \
-    go get github.com/taylor840326/go_pbspro/utils && \
+    go get github.com/MGlants/go_pbspro/qstat && \
+    go get github.com/MGlants/go_pbspro/utils && \
     go get gopkg.in/alecthomas/kingpin.v2 && \
     go get github.com/prometheus/client_golang/prometheus && \
     go get github.com/prometheus/client_golang/prometheus/promhttp && \
@@ -59,16 +59,16 @@ RUN set -xeuo && \
 
 
 RUN set -xeuo && \
-    mkdir -p $GOPATH/src/github.com/taylor840326 && \
-    cd $GOPATH/src/github.com/taylor840326 && \
-    git clone https://github.com/taylor840326/pbspro_exporter  && \
+    mkdir -p $GOPATH/src/github.com/MGlants && \
+    cd $GOPATH/src/github.com/MGlants && \
+    git clone https://github.com/MGlants/pbspro_exporter  && \
     cd pbspro_exporter && \
     go build
 
 
 FROM centos:7 as running
 
-COPY --from=builder /go/src/github.com/taylor840326/pbspro_exporter/pbspro_exporter /usr/bin/pbspro_exporter
+COPY --from=builder /go/src/github.com/MGlants/pbspro_exporter/pbspro_exporter /usr/bin/pbspro_exporter
 COPY --from=builder /opt/pbspro/lib/libpbs.so.0 /usr/lib/libpbs.so.0
 
 ADD entrypoint.sh /entrypoint.sh
